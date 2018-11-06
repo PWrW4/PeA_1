@@ -21,6 +21,11 @@ int Graph::GetMatrixSize()
 	return MatrixSize;
 }
 
+int Graph::GetTravelCost(int from, int to)
+{
+	return CityMatrix[from][to];
+}
+
 void Graph::LoadGraph(std::string fileName)
 {
 	using namespace std;
@@ -34,6 +39,7 @@ void Graph::LoadGraph(std::string fileName)
 
 	file >> MatrixSize;
 	CityMatrix.resize(MatrixSize, std::vector<int>(MatrixSize, 0));
+	std::cout << CityMatrix.size();
 
 	for (int i = 0; i < MatrixSize; ++i)
 	{

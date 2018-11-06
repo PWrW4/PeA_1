@@ -16,8 +16,12 @@ private:
 	int whichCity;
 	int iteration;
 
+	bool areAllCitiesVisited();
+
 	Graph * G;
 public:
+	bool Resolve(int v);
+	void ShowRoute();
 	BruteForce(Graph * _G);
 	~BruteForce();
 };

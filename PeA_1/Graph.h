@@ -12,6 +12,7 @@ public:
 	~Graph();
 	 
 	int GetMatrixSize();
+	int GetTravelCost(int from, int to);
 
 	void LoadGraph(std::string fileName);
 	void DrawMatrix();
