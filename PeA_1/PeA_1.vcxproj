@@ -151,11 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BranchAndBound.h" />
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BranchAndBound.cpp" />
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="pch.cpp">

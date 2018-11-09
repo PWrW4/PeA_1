@@ -1,10 +1,10 @@
-#include "pch.h"
-#include "BruteForce.h"
-#include <cstdint>
+﻿#include "pch.h"
+#include "BranchAndBound.h"
+#include <ostream>
 #include <iostream>
 
 
-bool BruteForce::areAllCitiesVisited()
+bool BranchAndBound::areAllCitiesVisited()
 {
 	for (int i = 0; i < G->GetMatrixSize(); i++)
 	{
@@ -14,7 +14,7 @@ bool BruteForce::areAllCitiesVisited()
 	return true;
 }
 
-bool BruteForce::Resolve(int v)
+bool BranchAndBound::Resolve(int v)
 {
 	if (iteration == 0)
 	{
@@ -25,15 +25,16 @@ bool BruteForce::Resolve(int v)
 	std::cout << iteration << std::endl;
 	if (!areAllCitiesVisited())
 	{
-		visitedCities[v] = true;
+		visitedCities[v] = true;//można to umieścić w tworzeniu funkcji, chociaż wierzchołek początkowy można wybrać losowo
 
-		for (int c = 0; c < G->GetMatrixSize(); c++)//czy dane miasto odwiedzone
+		for (int c = 0; c < G->GetMatrixSize(); c++)//sprawdzam czy dane miasto nie było już odwiedzone
 		{
-			if (!visitedCities[c] && G->GetTravelCost(v, c) > 0 && c != v)
+			if (!visitedCities[c] && G->GetTravelCost(v, c) > 0 && c != v && tmpCost < bestCost && tmpCost >= lowerLimit)
 			{
 				tmpCost += G->GetTravelCost(v, c);
 				visitedCities[c] = true;
 				tmpRoute[whichCity++] = c;
+				//Console.WriteLine("v: " + v + ", c: " + c + ", koszt: " + cityMatrix[v, c] + ", aktualny koszt: " + tmpCost);
 				Resolve(c);
 
 				tmpCost -= G->GetTravelCost(v, c);//po odwiedzeniu miasta
@@ -45,7 +46,8 @@ bool BruteForce::Resolve(int v)
 	else
 	{
 		tmpCost += G->GetTravelCost(tmpRoute[G->GetMatrixSize() - 1], tmpRoute[0]);
-		if (tmpCost < bestCost) //zapisanie najlepszej drogi i jej wartosci
+
+		if (tmpCost < bestCost) //zapisanie najlepszej drogi i jej wartości
 		{
 			bestCost = tmpCost;
 
@@ -58,19 +60,19 @@ bool BruteForce::Resolve(int v)
 	return true;
 }
 
-void BruteForce::ShowRoute()
+void BranchAndBound::ShowRoute()
 {
-	std::cout <<"Najkr�tszy cykl Hamiltonowski o koszcie(BF): "<< bestCost<<std::endl;
+	std::cout << "Najkrótszy cykl Hamiltonowski o koszcie(B&B): " << bestCost << std::endl;
 	for (int i = 0; i < G->GetMatrixSize(); i++)
 	{
 		if (i < G->GetMatrixSize() - 1)
 			std::cout << bestRoute[i] << " -> ";
 		else
-			std::cout<< bestRoute[i] <<" -> " << bestRoute[0] << std::endl;
+			std::cout << bestRoute[i] << " -> " << bestRoute[0] << std::endl;
 	}
 }
 
-BruteForce::BruteForce(Graph * _G)
+BranchAndBound::BranchAndBound(Graph * _G)
 {
 	G = _G;
 	tmpRoute = new int[G->GetMatrixSize()];
@@ -78,10 +80,12 @@ BruteForce::BruteForce(Graph * _G)
 	bestRoute = new int[G->GetMatrixSize()];
 
 	bestCost = INT32_MAX;
+	upperLimit = INT32_MAX;
 	startTop = 0;
 	tmpCost = 0;
 	whichCity = 1;
 	iteration = 0;
+	lowerLimit = 0;
 
 	for (int i = 0; i < G->GetMatrixSize(); ++i)
 	{
@@ -89,10 +93,21 @@ BruteForce::BruteForce(Graph * _G)
 		visitedCities[i] = false;
 		bestRoute[i] = -1;
 	}
+
+	for (int i = 0; i < G->GetMatrixSize(); i++)//szukam minimalnej drogi wychodzącej z każdego wierzchołka 
+	{
+		int min = G->GetTravelCost(i, 0);
+		for (int j = 0; j < G->GetMatrixSize(); j++)
+		{
+			if (G->GetTravelCost(i, j) < min)
+				min = G->GetTravelCost(i, j);
+		}
+		lowerLimit += min;
+	}
 }
 
 
-BruteForce::~BruteForce()
+BranchAndBound::~BranchAndBound()
 {
 	delete[] visitedCities;
 	delete[] bestRoute;
