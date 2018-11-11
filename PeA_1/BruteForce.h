@@ -20,7 +20,7 @@ private:
 
 	Graph * G;
 public:
-	bool Resolve(int v);
+	void Resolve(int v);
 	void ShowRoute();
 	BruteForce(Graph * _G);
 	~BruteForce();

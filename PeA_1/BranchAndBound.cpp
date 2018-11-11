@@ -14,7 +14,7 @@ bool BranchAndBound::areAllCitiesVisited()
 	return true;
 }
 
-bool BranchAndBound::Resolve(int v)
+void BranchAndBound::Resolve(int v)
 {
 	if (iteration == 0)
 	{
@@ -57,7 +57,6 @@ bool BranchAndBound::Resolve(int v)
 
 		tmpCost -= G->GetTravelCost(tmpRoute[G->GetMatrixSize() - 1], tmpRoute[0]);
 	}
-	return true;
 }
 
 void BranchAndBound::ShowRoute()

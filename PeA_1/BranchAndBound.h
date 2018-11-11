@@ -4,7 +4,6 @@
 class BranchAndBound
 {
 private:
-private:
 	int tmpCost;
 	int* tmpRoute;
 
@@ -24,7 +23,7 @@ private:
 
 	Graph * G;
 public:
-	bool Resolve(int v);
+	void Resolve(int v);
 	void ShowRoute();
 	BranchAndBound(Graph * _G);
 	~BranchAndBound();

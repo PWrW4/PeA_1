@@ -14,7 +14,7 @@ bool BruteForce::areAllCitiesVisited()
 	return true;
 }
 
-bool BruteForce::Resolve(int v)
+void BruteForce::Resolve(int v)
 {
 	if (iteration == 0)
 	{
@@ -55,7 +55,6 @@ bool BruteForce::Resolve(int v)
 
 		tmpCost -= G->GetTravelCost(tmpRoute[G->GetMatrixSize() - 1], tmpRoute[0]);
 	}
-	return true;
 }
 
 void BruteForce::ShowRoute()
