@@ -153,18 +153,13 @@
   <ItemGroup>
     <ClInclude Include="BranchAndBound.h" />
     <ClInclude Include="BruteForce.h" />
-    <ClInclude Include="CityWithLeftCities.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="HeldKarp.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Subset.h" />
-    <ClInclude Include="WeightAndPrevious.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BranchAndBound.cpp" />
     <ClCompile Include="BruteForce.cpp" />
-    <ClCompile Include="CityWithLeftCities.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="HeldKarp.cpp" />
     <ClCompile Include="pch.cpp">
@@ -174,8 +169,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PeA_1.cpp" />
-    <ClCompile Include="Subset.cpp" />
-    <ClCompile Include="WeightAndPrevious.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

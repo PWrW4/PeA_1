@@ -6,7 +6,7 @@
 
 bool BruteForce::areAllCitiesVisited()
 {
-	for (int i = 0; i < G->GetMatrixSize(); i++)
+	for (int i = 0; i < G->MatrixSize; i++)
 	{
 		if (!visitedCities[i])
 			return false;
@@ -27,16 +27,16 @@ void BruteForce::Resolve(int v)
 	{
 		visitedCities[v] = true;
 
-		for (int c = 0; c < G->GetMatrixSize(); c++)//czy dane miasto odwiedzone
+		for (int c = 0; c < G->MatrixSize; c++)//czy dane miasto odwiedzone
 		{
-			if (!visitedCities[c] && G->GetTravelCost(v, c) > 0 && c != v)
+			if (!visitedCities[c] && G->CityMatrix[v][c] > 0 && c != v)
 			{
-				tmpCost += G->GetTravelCost(v, c);
+				tmpCost += G->CityMatrix[v][c];
 				visitedCities[c] = true;
 				tmpRoute[whichCity++] = c;
 				Resolve(c);
 
-				tmpCost -= G->GetTravelCost(v, c);//po odwiedzeniu miasta
+				tmpCost -= G->CityMatrix[v][c];//po odwiedzeniu miasta
 				visitedCities[c] = false;
 				whichCity--;
 			}
@@ -44,25 +44,25 @@ void BruteForce::Resolve(int v)
 	}
 	else
 	{
-		tmpCost += G->GetTravelCost(tmpRoute[G->GetMatrixSize() - 1], tmpRoute[0]);
+		tmpCost += G->CityMatrix[tmpRoute[G->MatrixSize - 1]] [tmpRoute[0]];
 		if (tmpCost < bestCost) //zapisanie najlepszej drogi i jej wartosci
 		{
 			bestCost = tmpCost;
 
-			for (int i = 0; i < G->GetMatrixSize(); i++)
+			for (int i = 0; i < G->MatrixSize; i++)
 				bestRoute[i] = tmpRoute[i];
 		}
 
-		tmpCost -= G->GetTravelCost(tmpRoute[G->GetMatrixSize() - 1], tmpRoute[0]);
+		tmpCost -= G->CityMatrix[tmpRoute[G->MatrixSize - 1]] [tmpRoute[0]];
 	}
 }
 
 void BruteForce::ShowRoute()
 {
 	std::cout <<"Najkrótszy cykl Hamiltonowski o koszcie(BF): "<< bestCost<<std::endl;
-	for (int i = 0; i < G->GetMatrixSize(); i++)
+	for (int i = 0; i < G->MatrixSize; i++)
 	{
-		if (i < G->GetMatrixSize() - 1)
+		if (i < G->MatrixSize - 1)
 			std::cout << bestRoute[i] << " -> ";
 		else
 			std::cout<< bestRoute[i] <<" -> " << bestRoute[0] << std::endl;
@@ -72,9 +72,9 @@ void BruteForce::ShowRoute()
 BruteForce::BruteForce(Graph * _G)
 {
 	G = _G;
-	tmpRoute = new int[G->GetMatrixSize()];
-	visitedCities = new bool[G->GetMatrixSize()];
-	bestRoute = new int[G->GetMatrixSize()];
+	tmpRoute = new int[G->MatrixSize];
+	visitedCities = new bool[G->MatrixSize];
+	bestRoute = new int[G->MatrixSize];
 
 	bestCost = INT32_MAX;
 	startTop = 0;
@@ -82,7 +82,7 @@ BruteForce::BruteForce(Graph * _G)
 	whichCity = 1;
 	iteration = 0;
 
-	for (int i = 0; i < G->GetMatrixSize(); ++i)
+	for (int i = 0; i < G->MatrixSize; ++i)
 	{
 		tmpRoute[i] = -1;
 		visitedCities[i] = false;

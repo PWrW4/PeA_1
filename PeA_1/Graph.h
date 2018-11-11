@@ -5,14 +5,13 @@
 class Graph
 {
 private:
-	std::vector<std::vector<int>> CityMatrix;
-	int MatrixSize = 0;
+
 public:
 	Graph();
 	~Graph();
 	 
-	int GetMatrixSize();
-	int GetTravelCost(int from, int to);
+	std::vector<std::vector<int>> CityMatrix;
+	int MatrixSize = 0;
 
 	void LoadGraph(std::string fileName);
 	void DrawMatrix();
