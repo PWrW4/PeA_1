@@ -22,7 +22,6 @@ void BruteForce::Resolve(int v)
 		tmpRoute[v] = 0;
 	}
 	iteration++;
-	std::cout << iteration << std::endl;
 	if (!areAllCitiesVisited())
 	{
 		visitedCities[v] = true;

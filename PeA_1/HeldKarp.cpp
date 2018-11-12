@@ -10,9 +10,6 @@
 
 void HeldKarp::Resolve()
 {
-	// use DP to solve all states
-	// note that whenever we solve a particular state, 
-	// the smaller states we need have already been solved
 
 	int test = (1 << (G->MatrixSize - 1));
 
@@ -51,7 +48,7 @@ void HeldKarp::Resolve()
 		}
 	}
 
-	// use the precomputed path lengths to choose the cheapest cycle
+	// chose cycle
 	for (int last = 0; last < G->MatrixSize - 1; ++last) {
 		bestCost = std::min(bestCost,(G->CityMatrix[last][G->MatrixSize - 1] + subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost));
 //		std::cout << last <<"   "<< G->CityMatrix[last][G->MatrixSize - 1] + subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost<<std::endl;

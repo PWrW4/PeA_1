@@ -34,7 +34,6 @@ void Graph::LoadGraph(std::string fileName)
 	for (int i = 0; i < MatrixSize; ++i)
 	{
 		CityMatrix[i].resize(MatrixSize);
-		std::cout << CityMatrix[i].size()<<"  ";
 	}
 
 
