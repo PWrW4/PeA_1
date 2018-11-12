@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BBElement.h" />
     <ClInclude Include="BranchAndBound.h" />
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="Graph.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Subset.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BBElement.cpp" />
     <ClCompile Include="BranchAndBound.cpp" />
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="Graph.cpp" />

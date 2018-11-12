@@ -1,29 +1,18 @@
 #pragma once
 #include "Graph.h"
+#include "BBElement.h"
 
 class BranchAndBound
 {
 private:
-	int tmpCost;
-	int* tmpRoute;
-
-	bool* visitedCities;
-	int startTop;
-
-	int bestCost;
-	int* bestRoute;
-
-	int whichCity;
-	int iteration;
-
-	int upperLimit;
-	int lowerLimit;
-
-	bool areAllCitiesVisited();
-
+	std::vector<BBElement> nodeArray;
+	int upperBound = INT32_MAX;
 	Graph * G;
+	int reduceMatrix(std::vector<std::vector<int>>* matrix_to_put, BBElement * from);
+	void travel(std::vector<std::vector<int>>* matrix_to_put, int vertex, int vertex1);
+	BBElement * createBBElement(int vertex, BBElement * from);
 public:
-	void Resolve(int v);
+	void Resolve();
 	void ShowRoute();
 	BranchAndBound(Graph * _G);
 	~BranchAndBound();

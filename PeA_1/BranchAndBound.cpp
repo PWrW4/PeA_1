@@ -2,113 +2,129 @@
 #include "BranchAndBound.h"
 #include <ostream>
 #include <iostream>
+#include <algorithm>
 
+#define startVertex 0;
 
-bool BranchAndBound::areAllCitiesVisited()
+int BranchAndBound::reduceMatrix(std::vector<std::vector<int>>* matrix_to_put, BBElement * from)
 {
-	for (int i = 0; i < G->MatrixSize; i++)
+	for (int i = 0; i < matrix_to_put->size(); ++i)
 	{
-		if (!visitedCities[i])
-			return false;
+		(*matrix_to_put)[i][i] = INT32_MAX;
 	}
-	return true;
+
+	int minimalX = 0;
+	int minimalY = 0;
+
+	for (int i = 0; i < matrix_to_put->size(); ++i)
+	{
+		int minimal=INT32_MAX;
+		for (int j = 0; j < matrix_to_put->size(); ++j)
+		{
+			minimal = std::min(minimal, (*matrix_to_put)[i][j]);
+		
+		}
+		if (minimal != 0 || minimal!=INT32_MAX)
+		{
+			for (int j = 0; j < matrix_to_put->size(); ++j)
+			{
+				if ((*matrix_to_put)[i][j] != INT32_MAX)
+				{
+					(*matrix_to_put)[i][j] -= minimal;
+				}
+			}
+		}
+		if (minimal!=INT32_MAX)
+		{
+			minimalX += minimal;
+		}
+	}
+
+	for (int i = 0; i < matrix_to_put->size(); ++i)
+	{
+		int minimal= INT32_MAX;
+		for (int j = 0; j < matrix_to_put->size(); ++j)
+		{
+			minimal = std::min(minimal, (*matrix_to_put)[j][i]);
+		}
+		if (minimal != 0 || minimal != INT32_MAX)
+		{
+			for (int j = 0; j < matrix_to_put->size(); ++j)
+			{
+				if ((*matrix_to_put)[j][i] != INT32_MAX)
+				{
+					(*matrix_to_put)[j][i] -= minimal;
+				}
+
+			}
+		}
+		if (minimal != INT32_MAX)
+		{
+			minimalY += minimal;
+		}
+	}
+
+	return minimalX + minimalY;
 }
 
-void BranchAndBound::Resolve(int v)
+void BranchAndBound::travel(std::vector<std::vector<int>>* matrix_to_put, int vertex, int vertex1)
 {
-//	if (iteration == 0)
-//	{
-//		visitedCities[v] = true;
-//		tmpRoute[v] = 0;
-//	}
-//	iteration++;
-//	std::cout << iteration << std::endl;
-//	if (!areAllCitiesVisited())
-//	{
-//		visitedCities[v] = true;//można to umieścić w tworzeniu funkcji, chociaż wierzchołek początkowy można wybrać losowo
-//
-//		for (int c = 0; c < G->MatrixSize; c++)//sprawdzam czy dane miasto nie było już odwiedzone
-//		{
-//			if (!visitedCities[c] && G->CityMatrix[v][c] > 0 && c != v && tmpCost < bestCost && tmpCost >= lowerLimit)
-//			{
-//				tmpCost += G->CityMatrix[v][c];
-//				visitedCities[c] = true;
-//				tmpRoute[whichCity++] = c;
-//				//Console.WriteLine("v: " + v + ", c: " + c + ", koszt: " + cityMatrix[v, c] + ", aktualny koszt: " + tmpCost);
-//				Resolve(c);
-//
-//				tmpCost -= G->CityMatrix[v][c];//po odwiedzeniu miasta
-//				visitedCities[c] = false;
-//				whichCity--;
-//			}
-//		}
-//	}
-//	else
-//	{
-//		tmpCost += G->GetTravelCost(tmpRoute[G->MatrixSize - 1], tmpRoute[0]);
-//
-//		if (tmpCost < bestCost) //zapisanie najlepszej drogi i jej wartości
-//		{
-//			bestCost = tmpCost;
-//
-//			for (int i = 0; i < G->MatrixSize; i++)
-//				bestRoute[i] = tmpRoute[i];
-//		}
-//
-//		tmpCost -= G->GetTravelCost(tmpRoute[G->MatrixSize - 1], tmpRoute[0]);
-//	}
+	(*matrix_to_put)[vertex1][vertex] = INT32_MAX;
+	for (int i = 0; i < matrix_to_put->size(); ++i)
+	{
+		(*matrix_to_put)[vertex][i] = INT32_MAX;
+		(*matrix_to_put)[i][vertex1] = INT32_MAX;
+	}
+}
+
+BBElement * BranchAndBound::createBBElement(int vertex, BBElement * from)
+{
+	int loweBound=-1;
+	std::vector<std::vector<int>> * matrixToPut = new std::vector<std::vector<int>>;
+	if (from==nullptr)
+	{
+		matrixToPut->resize(G->MatrixSize, std::vector<int>(G->MatrixSize));
+		*matrixToPut = G->CityMatrix;
+		loweBound = reduceMatrix(matrixToPut, from);
+	}
+	else
+	{
+		matrixToPut->resize(G->MatrixSize, std::vector<int>(G->MatrixSize));
+		*matrixToPut = *from->matrixCost;
+		travel(matrixToPut,from->vertex,vertex);
+		loweBound = reduceMatrix(matrixToPut,from)+(*nodeArray[0].matrixCost)[from->vertex][vertex]+from->lowerBound;		
+	}
+
+	return new BBElement(vertex,from,loweBound, matrixToPut);
+}
+
+void BranchAndBound::Resolve()
+{
+	nodeArray.push_back(*createBBElement(0, nullptr));
+	nodeArray.push_back(*createBBElement(1, &nodeArray[0]));
+	nodeArray.push_back(*createBBElement(2, &nodeArray[0]));
+	nodeArray.push_back(*createBBElement(3, &nodeArray[0]));
+	nodeArray.push_back(*createBBElement(4, &nodeArray[0]));
 }
 
 void BranchAndBound::ShowRoute()
 {
-	std::cout << "Najkrótszy cykl Hamiltonowski o koszcie(B&B): " << bestCost << std::endl;
-	for (int i = 0; i < G->MatrixSize; i++)
-	{
-		if (i < G->MatrixSize - 1)
-			std::cout << bestRoute[i] << " -> ";
-		else
-			std::cout << bestRoute[i] << " -> " << bestRoute[0] << std::endl;
-	}
+//	std::cout << "Najkrótszy cykl Hamiltonowski o koszcie(B&B): " << bestCost << std::endl;
+//	for (int i = 0; i < G->MatrixSize; i++)
+//	{
+//		if (i < G->MatrixSize - 1)
+//			std::cout << bestRoute[i] << " -> ";
+//		else
+//			std::cout << bestRoute[i] << " -> " << bestRoute[0] << std::endl;
+//	}
 }
 
 BranchAndBound::BranchAndBound(Graph * _G)
 {
-//	G = _G;
-//	tmpRoute = new int[G->MatrixSize];
-//	visitedCities = new bool[G->MatrixSize];
-//	bestRoute = new int[G->MatrixSize];
-//
-//	bestCost = INT32_MAX;
-//	upperLimit = INT32_MAX;
-//	startTop = 0;
-//	tmpCost = 0;
-//	whichCity = 1;
-//	iteration = 0;
-//	lowerLimit = 0;
-//
-//	for (int i = 0; i < G->MatrixSize; ++i)
-//	{
-//		tmpRoute[i] = -1;
-//		visitedCities[i] = false;
-//		bestRoute[i] = -1;
-//	}
-//
-//	for (int i = 0; i < G->MatrixSize; i++)//szukam minimalnej drogi wychodzącej z każdego wierzchołka 
-//	{
-//		int min = G->GetTravelCost(i, 0);
-//		for (int j = 0; j < G->MatrixSize; j++)
-//		{
-//			if (G->GetTravelCost(i, j) < min)
-//				min = G->GetTravelCost(i, j);
-//		}
-//		lowerLimit += min;
-//	}
+	G = _G;
 }
 
 
 BranchAndBound::~BranchAndBound()
 {
-	delete[] visitedCities;
-	delete[] bestRoute;
-	delete[] tmpRoute;
 }
