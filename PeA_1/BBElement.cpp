@@ -2,6 +2,17 @@
 #include "BBElement.h"
 
 
+bool BBElement::vertexExistInRoute(int v)
+{
+	for (int route1 : route)
+	{
+		if (route1==v)
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 BBElement::BBElement(int _vertex, BBElement * _from,int _lb, std::vector<std::vector<int>> * _matrixCost)
 {

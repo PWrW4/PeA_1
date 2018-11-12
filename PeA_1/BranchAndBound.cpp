@@ -77,6 +77,20 @@ void BranchAndBound::travel(std::vector<std::vector<int>>* matrix_to_put, int ve
 	}
 }
 
+BBElement* BranchAndBound::getLowestCostNode()
+{
+	BBElement * tmp = &nodeArray[0];
+
+	for (BBElement node_array : nodeArray)
+	{
+		if (node_array.lowerBound < tmp->lowerBound)
+		{
+			tmp = &node_array;
+		}
+	}
+	return tmp;
+}
+
 BBElement * BranchAndBound::createBBElement(int vertex, BBElement * from)
 {
 	int loweBound=-1;
@@ -101,10 +115,22 @@ BBElement * BranchAndBound::createBBElement(int vertex, BBElement * from)
 void BranchAndBound::Resolve()
 {
 	nodeArray.push_back(*createBBElement(0, nullptr));
-	nodeArray.push_back(*createBBElement(1, &nodeArray[0]));
-	nodeArray.push_back(*createBBElement(2, &nodeArray[0]));
-	nodeArray.push_back(*createBBElement(3, &nodeArray[0]));
-	nodeArray.push_back(*createBBElement(4, &nodeArray[0]));
+
+	for (int i = 0; i < G->MatrixSize; ++i)
+	{
+		BBElement * tmp = getLowestCostNode();
+		if (!tmp->vertexExistInRoute(i))
+		{
+			nodeArray.push_back(*createBBElement(i, tmp));
+		}
+	}
+
+	std::cout << "a";
+
+//	nodeArray.push_back(*createBBElement(1, &nodeArray[0]));
+//	nodeArray.push_back(*createBBElement(2, &nodeArray[0]));
+//	nodeArray.push_back(*createBBElement(3, &nodeArray[0]));
+//	nodeArray.push_back(*createBBElement(4, &nodeArray[0]));
 }
 
 void BranchAndBound::ShowRoute()
