@@ -156,6 +156,7 @@
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="HeldKarp.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Subset.h" />
   </ItemGroup>
@@ -165,6 +166,7 @@
     <ClCompile Include="BruteForce.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="HeldKarp.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

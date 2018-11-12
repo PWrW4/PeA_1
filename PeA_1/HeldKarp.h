@@ -9,7 +9,6 @@ class HeldKarp
 private:
 	Graph * G;
 	int bestCost;
-	std::vector<int> bestRoute;
 	std::vector<std::vector<Subset> > subsetVector;
 public:
 

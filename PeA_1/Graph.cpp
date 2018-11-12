@@ -30,7 +30,6 @@ void Graph::LoadGraph(std::string fileName)
 
 	file >> MatrixSize;
 	CityMatrix.resize(MatrixSize, std::vector<int>(MatrixSize, 0));
-	std::cout << CityMatrix.size()<<endl;
 	for (int i = 0; i < MatrixSize; ++i)
 	{
 		CityMatrix[i].resize(MatrixSize);
@@ -44,6 +43,7 @@ void Graph::LoadGraph(std::string fileName)
 			file >> CityMatrix[i][j];
 		}
 	}
+	std::cout << "OK!"<<endl;
 }
 
 void Graph::DrawMatrix()

@@ -25,6 +25,7 @@ void HeldKarp::Resolve()
 				// previous vertex must have been N-1
 				subsetVector[visited][last].cost = G->CityMatrix[G->MatrixSize - 1][last];
 				subsetVector[visited][last].from = (G->MatrixSize - 1);
+				subsetVector[visited][last].vertex = last;
 			}
 			else {
 				// previous vertex was one of the other ones in "visited"
@@ -38,10 +39,12 @@ void HeldKarp::Resolve()
 					if (subsetVector[visited][last].cost > (G->CityMatrix[prev][last] + subsetVector[prev_visited][prev].cost))
 					{
 						subsetVector[visited][last].from = visited;
+						subsetVector[visited][last].vertex = last;
 					}
 					else
 					{
 						subsetVector[visited][last].from = prev_visited;
+						subsetVector[visited][last].vertex = last;
 					}
 				}
 			}
@@ -62,46 +65,39 @@ void HeldKarp::ShowRoute()
 	}
 
 	int idOfSubset = (1 << (G->MatrixSize - 1))-1;
-	std::vector<int> vectorOfSubsets;
-	while (idOfSubset != G->MatrixSize - 1)
+	std::vector<int> route;
+	route.push_back(G->MatrixSize-1);
+	while (route.size() != G->MatrixSize)
 	{
-		vectorOfSubsets.push_back(idOfSubset);
+		
 		Subset tmp_min;
-		for (int i = 0; i < G->MatrixSize - 1; ++i)
+		for (int i = 0; i < G->MatrixSize; ++i)
 		{
 			if (tmp_min.cost > subsetVector[idOfSubset][i].cost)
 			{
 				tmp_min.cost = subsetVector[idOfSubset][i].cost;
 				tmp_min.from = subsetVector[idOfSubset][i].from;
+				tmp_min.vertex = subsetVector[idOfSubset][i].vertex;
 			}
-		}		
+		}
+		route.push_back(tmp_min.vertex);
 		idOfSubset = tmp_min.from;
 	}
 
-	int nextToSubtract = 0;
-	bestRoute.push_back(G->MatrixSize - 1);
-
-	for (int i = G->MatrixSize-2; i >= 0; --i)
-	{
-		bestRoute.push_back(log2((int)(vectorOfSubsets[i]- nextToSubtract)));
-		nextToSubtract = vectorOfSubsets[i];
-	}
 
 	std::cout << "Najkrótszy cykl Hamiltonowski o koszcie(BF): " << bestCost << std::endl;
 	for (int i = G->MatrixSize-1; i >=0; i--)
 	{
 		if (i > 0)
-			std::cout << bestRoute[i] << " -> ";
+			std::cout << route[i] << " -> ";
 		else
-			std::cout << bestRoute[i] << " -> " << bestRoute[G->MatrixSize - 1] << std::endl;
+			std::cout << route[i] << " -> " << route[G->MatrixSize - 1] << std::endl;
 	}
 }
 
 HeldKarp::HeldKarp(Graph * _G)
 {
 	G = _G;
-	bestRoute.resize(G->MatrixSize);
-	bestRoute.clear();
 	subsetVector.resize(1 << (G->MatrixSize - 1), std::vector<Subset>(G->MatrixSize));
 	bestCost = INT32_MAX;
 }
