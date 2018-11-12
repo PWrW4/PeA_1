@@ -13,8 +13,8 @@ void menu::mainMenu()
 	int rangeVal = 1;
 	int startVal = 1;
 	std::string fname = "";
-	double List = 0;
-	double Matrix = 0;
+	double Time = 0;
+
 
 	do
 	{
@@ -50,39 +50,41 @@ void menu::mainMenu()
 			HK->ShowRoute();
 			break;
 		case 6:
-			List = 0;
-			Matrix = 0;
+			Time = 0;
 			srand(time(NULL));
-			std::cout << "1. BruteForce \n 2. BranchAndBound \n 3. HeldKarp \n" << std::endl;
+			std::cout << " 1. BruteForce \n 2. BranchAndBound \n 3. HeldKarp \n" << std::endl;
 			std::cin >> decision;
 			switch (decision)
 			{
 			case 1:
-				for (int i = 0; i < 100; i++)
+				for (int i = 0; i < 10; i++)
 				{
+					delete BF;
+					BF = new BruteForce(_graph);
 					StartCounter();
-					List += GetCounter();
-					StartCounter();
-					Matrix += GetCounter();
+					BF->Resolve(0);
+					Time += GetCounter();
 				}
 
 				break;
 			case 2:
-				for (int i = 0; i < 100; i++)
+				for (int i = 0; i < 10; i++)
 				{
+					delete BB;
+					BB = new BranchAndBound(_graph);
 					StartCounter();
-					List += GetCounter();
-					StartCounter();
-					Matrix += GetCounter();
+					BB->Resolve();
+					Time += GetCounter();
 				}
 				break;
 			case 3:
-				for (int i = 0; i < 100; i++)
+				for (int i = 0; i < 10; i++)
 				{
+					delete HK;
+					HK = new HeldKarp(_graph);
 					StartCounter();
-					List += GetCounter();
-					StartCounter();
-					Matrix += GetCounter();
+					HK->Resolve();
+					Time += GetCounter();
 				}
 				break;
 			default:
@@ -90,7 +92,7 @@ void menu::mainMenu()
 				break;
 			}
 
-			std::cout << std::endl << "List: " << List / 100 << std::endl << "Matrix: " << Matrix / 100 << std::endl;
+			std::cout << std::endl << "Time: " << Time / 10 << std::endl;
 
 			break;
 		default:
