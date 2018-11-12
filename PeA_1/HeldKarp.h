@@ -1,27 +1,16 @@
 #pragma once
 #include <vector>
 #include "Graph.h"
+#include "Subset.h"
 
 
 class HeldKarp
 {
 private:
-	int tmpCost;
-	int* tmpRoute;
-
-	bool* visitedCities;
-	int startTop;
-
-	int bestCost;
-	int* bestRoute;
-
-	int whichCity;
-	int iteration;
-
-	bool ifVectorContain(std::vector<int> vect, int value);
-	std::vector<int> getVectorWithoutElement(std::vector<int> vect, int value);
-
 	Graph * G;
+	int bestCost;
+	std::vector<int> bestRoute;
+	std::vector<std::vector<Subset> > subsetVector;
 public:
 
 	void Resolve();
