@@ -54,11 +54,16 @@ void HeldKarp::Resolve()
 	// use the precomputed path lengths to choose the cheapest cycle
 	for (int last = 0; last < G->MatrixSize - 1; ++last) {
 		bestCost = std::min(bestCost,(G->CityMatrix[last][G->MatrixSize - 1] + subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost));
+//		std::cout << last <<"   "<< G->CityMatrix[last][G->MatrixSize - 1] + subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost<<std::endl;
 	}
 }
 
 void HeldKarp::ShowRoute()
 {
+	for (int last = 0; last < G->MatrixSize - 1; ++last) {
+		subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost = (G->CityMatrix[last][G->MatrixSize - 1] + subsetVector[(1 << (G->MatrixSize - 1)) - 1][last].cost);
+	}
+
 	int idOfSubset = (1 << (G->MatrixSize - 1))-1;
 	std::vector<int> vectorOfSubsets;
 	while (idOfSubset != G->MatrixSize - 1)
@@ -81,17 +86,17 @@ void HeldKarp::ShowRoute()
 
 	for (int i = G->MatrixSize-2; i >= 0; --i)
 	{
-		bestRoute.push_back(log2(vectorOfSubsets[i]- nextToSubtract));
+		bestRoute.push_back(log2((int)(vectorOfSubsets[i]- nextToSubtract)));
 		nextToSubtract = vectorOfSubsets[i];
 	}
 
 	std::cout << "Najkrótszy cykl Hamiltonowski o koszcie(BF): " << bestCost << std::endl;
-	for (int i = 0; i < G->MatrixSize; i++)
+	for (int i = G->MatrixSize-1; i >=0; i--)
 	{
-		if (i < G->MatrixSize - 1)
+		if (i > 0)
 			std::cout << bestRoute[i] << " -> ";
 		else
-			std::cout << bestRoute[i] << " -> " << bestRoute[0] << std::endl;
+			std::cout << bestRoute[i] << " -> " << bestRoute[G->MatrixSize - 1] << std::endl;
 	}
 }
 
