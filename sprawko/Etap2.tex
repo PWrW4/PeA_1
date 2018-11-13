@@ -1,0 +1,105 @@
+\documentclass{article}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% PROSZE NIE WPROWADZAC TUTAJ ZMIAN! ZABAWY TYLKO NA WLASNEJ KOPII
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%przykladowe pakiety
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{graphicx}
+\usepackage{amsmath} % w zasadzie tez mozna wywalic 
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{color}
+
+
+% przykladowe kolorowanie kodu w listingu
+\lstset{language=C++,backgroundcolor=\color[rgb]{0.99,0.99,0.99},captionpos=b,tabsize=3,numbers=left,numberstyle=\tiny,numbersep=5pt,basicstyle=\footnotesize,keywordstyle=\color[rgb]{0,0,1},commentstyle=\color{Darkgreen},stringstyle=\color{red},numbers=left,xleftmargin=2em,framexleftmargin=1.8em,}
+
+
+
+\begin{document}
+
+%strona tytulowa - osobny plik
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\center
+ 
+\textsc{\LARGE Politechnika Wroclawska}\\[1.5cm] 
+\textsc{\Large Projektowanie efektywnych algorytmów }\\[0.5cm]
+
+\HRule \\[0.5cm]
+{ \huge \bfseries Projekt 1}\\[0.5cm]
+\HRule \\[1.6cm]
+ 
+ 
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autor:}\\
+Wojciech  \textsc{Wójcik}  235621\\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Prowadzacy:} \\
+Dr inż. Jarosław  \textsc{Rudy} 
+\end{flushright}
+\end{minipage}\\[4cm]
+
+
+\vfill
+{\large 13 października 2018}\\[3cm]
+
+\end{titlepage}
+   
+\newpage
+    
+\tableofcontents
+\newpage
+
+\section{Wstęp}
+
+Celem projektu było wykonanie programu, wykorzystującego algorytmy programowania dynamicznego, podziału i ograniczeń oraz przeglądu zupełnego do rozwiązania problemu komiwojażera
+(ang. Travelling Salesman Problem).
+
+\section{Specyfikacja techniczna}
+
+\begin{itemize}
+\item Program został wykonany obiektowo w języku c++
+\item Program akceptuje dane w postaci macierzy odległości
+\item Czas wykonania algorytmów mierzone był przy wykorzystaniu
+bibliotek systemowych
+\end{itemize}
+
+\section{Analiza problemu}
+
+Problem komiwojażera należy do klasy problemów NP-trudnych. Jest to
+optymalizacyjny problem, rozwiązaniem którego jest znalezienie minimalnego cyklu Hamiltona
+(ścieżki prowadzącej przez wszystkie wierzchołki grafu, powracając na końcu do wierzchołka
+początkowego). W wersji asynchronicznej, odległości pomiędzy
+wierzchołkami mogą dodatkowo zależeć także od kierunku przejścia pomiędzy nimi. Główną
+trudnością w rozwiązaniu problemu jest znacząca liczba możliwych kombinacji.
+
+
+\section{Opis Algorytmów}
+
+\subsection{Przegląd zupełny}
+
+Algorytm przeglądu zupełnego (ang. brute force) polega na przeanalizowaniu wszystkich
+możliwych przypadków, oraz wybraniu tego o najlepszej wartości. Zaletą tego algorytmu jest pewność,
+że otrzymany wynik jest najlepszym rozwiązaniem problemu. Poważną jego wadą jest jednak
+złożoność czasową wynoszącą O(n!), co w praktyce czyni ten algorytm bezużytecznym dla większych
+zbiorów danych.
+
+
+
+
+\end{document}
+
