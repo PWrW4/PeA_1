@@ -95,10 +95,16 @@ trudnością w rozwiązaniu problemu jest znacząca liczba możliwych kombinacji
 Algorytm przeglądu zupełnego (ang. brute force) polega na przeanalizowaniu wszystkich
 możliwych przypadków, oraz wybraniu tego o najlepszej wartości. Zaletą tego algorytmu jest pewność,
 że otrzymany wynik jest najlepszym rozwiązaniem problemu. Poważną jego wadą jest jednak
-złożoność czasową wynoszącą O(n!), co w praktyce czyni ten algorytm bezużytecznym dla większych
+złożoność czasową wynoszącą $O(n!)$, co w praktyce czyni ten algorytm bezużytecznym dla większych
 zbiorów danych.
 
+\subsection{Programowanie dynamiczne}
 
+Programowanie dynamiczne (ang. dynamic programming) jest metodą rozwiązywania złożonych
+problemów, poprzez rozbicie ich na zbiór podproblemów o mniejszej złożoności, przy założeniu, że
+każdy podproblem rozważany jest jedynie raz, a wynik jego analizy przechowywany jest do
+wykorzystania w późniejszych obliczeniach. Dla problemu komiwojażera, najlepszym algorytmem
+wykorzystującym tę metodę, jest algorytm Helda-Karpa, posiadający złożoność czasową $O(n2 * 2n)$.
 
 
 \end{document}
