@@ -104,7 +104,9 @@ Programowanie dynamiczne (ang. dynamic programming) jest metodą rozwiązywania 
 problemów, poprzez rozbicie ich na zbiór podproblemów o mniejszej złożoności, przy założeniu, że
 każdy podproblem rozważany jest jedynie raz, a wynik jego analizy przechowywany jest do
 wykorzystania w późniejszych obliczeniach. Dla problemu komiwojażera, najlepszym algorytmem
-wykorzystującym tę metodę, jest algorytm Helda-Karpa, posiadający złożoność czasową $O(n2 * 2n)$.
+wykorzystującym tę metodę, jest algorytm Helda-Karpa, posiadający złożoność czasową $O(n2 * 2n)$.\\\\
+
+Algorytm wykorzystuje tablicę $2^{(n-1)}$ elementową indeksowaną od zera. Tablica jest wypełniana według algorytmu Helda-Karpa jak i również znajdujemy minimalny koszt przejścia instancji.\\ Indeks elementu jest również maską która mówi o miastach które się odwiedziło. Przykładowo dla 5 miast ostatnim indeksem jest $15$, czyli $1111_{2}$ - ta maska mówi o odwiedzeniu wszystkich miast poza ostatnim. Mimo 5 punktów potrzebne są nam tylko 4 bity, gdyż ostatnie miasto jest już wybrane i znajdujemy wierzchołek który zapewni nam najmniejszy koszt podroży od ostatniego wierzchołka. W tym elemencie znajduje się lista elementów mówiących o koszcie przejścia tych wszystkich miast wraz ze wskazaniem na to który punkt był ostatnim. Wybierając najmniejszy element, na przykład $2$ przechodzimy do maski $1011_{2}$, gdzie powtarzamy algorytm, aż do całkowitego odtworzenia drogi(na samym początku należy pamiętać o dodaniu kosztu powrotu do ostatniego wierzchołka, by można było wybrać poprawny element). 
 
 
 \end{document}
